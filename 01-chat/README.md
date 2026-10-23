@@ -29,3 +29,4 @@ In the JSON, note `"store" : false` and the full history in `input`.
 
 Note: commenting out `history.add(answer);` alone is not enough. Your first message is still in the list, so the model still "knows" the name; it only loses its own previous answers.
 
+**Next:** [Step 02 — Tokens and cost](../02-tokens/)

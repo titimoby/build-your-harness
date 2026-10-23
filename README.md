@@ -5,13 +5,18 @@ the tools, the guardrails, the context management. This repository builds a smal
 a time, writing every part of the harness ourselves.
 
 Each step is a single runnable file, and each new step comes with an article. The difference between two consecutive steps
-is exactly what that article explains.
+is exactly what that article explains:
+
+```bash
+diff 01-chat/Agent.java 02-tokens/Agent.java
+```
 
 ## The steps
 
 | Step | What it adds |
 |---|---|
 | [01 — Minimal chat](01-chat/) | The model is stateless: the conversation is a list we keep and resend every turn |
+| [02 — Tokens and cost](02-tokens/) | A system prompt, and a counter for tokens, cost and context-window usage |
 
 More steps will be added here, one per article.
 
@@ -22,11 +27,15 @@ More steps will be added here, one per article.
 
 ## Configuration
 
-| Variable | Default |
-|---|---|
-| `LLM_BASE_URL` | `https://api.openai.com/v1` |
-| `LLM_API_KEY` | — |
-| `LLM_MODEL` | `gpt-6-luna` |
+| Variable | Default | Used from |
+|---|---|---|
+| `LLM_BASE_URL` | `https://api.openai.com/v1` | step 01 |
+| `LLM_API_KEY` | — | step 01 |
+| `LLM_MODEL` | `gpt-6-luna` | step 01 |
+| `LLM_PRICE_INPUT` / `LLM_PRICE_OUTPUT` | `0.10` / `0.50` ($ per million tokens) | step 02 |
+| `LLM_CONTEXT_WINDOW` | `1050000` tokens | step 02 |
+
+Prices and window size depend on your model: the API never reports them, so set them to get a meaningful counter.
 
 ## Running a step
 
