@@ -57,11 +57,13 @@ void main(String[] args) {
 
         // Every turn pays again for the whole history: input tokens grow even if we only say "ok".
         var usage = response.tokenUsage();
-        totalInput += usage.inputTokenCount();
-        totalOutput += usage.outputTokenCount();
-        double cost = (totalInput * PRICE_INPUT + totalOutput * PRICE_OUTPUT) / 1_000_000;
-        int contextSize = usage.inputTokenCount() + usage.outputTokenCount();
-        display.usage(usage.inputTokenCount(), usage.outputTokenCount(), cost, 100.0 * contextSize / CONTEXT_WINDOW);
+        if (usage != null) { // usage is optional in the API: some providers don't report it
+            totalInput += usage.inputTokenCount();
+            totalOutput += usage.outputTokenCount();
+            double cost = (totalInput * PRICE_INPUT + totalOutput * PRICE_OUTPUT) / 1_000_000;
+            int contextSize = usage.inputTokenCount() + usage.outputTokenCount();
+            display.usage(usage.inputTokenCount(), usage.outputTokenCount(), cost, 100.0 * contextSize / CONTEXT_WINDOW);
+        }
     }
 }
 
