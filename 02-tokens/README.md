@@ -31,5 +31,7 @@ After each answer, a grey line shows the calls, tokens, session cost and context
 | "Explain how garbage collection works in Java." | A short answer, three sentences at most, for a topic that usually gets pages: the system prompt applies, because it is part of every request |
 | Then "Explain it in detail." | A longer answer: the system prompt says "unless asked otherwise", and now you asked. It sets a default, not a hard limit |
 
-Numbers follow your machine's locale (`0,1%` or `0.1%`). If your provider returns no usage data, `tokenUsage()` may be missing.
+Numbers follow your machine's locale (`0,1%` or `0.1%`). Usage data is optional in the API: if your provider doesn't report it, `tokenUsage()` is `null` and the counter line
+is simply skipped for that turn.
 
+**Next:** [Step 03 — A first tool](../03-first-tool/)

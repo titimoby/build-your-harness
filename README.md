@@ -8,7 +8,7 @@ Each step is a single runnable file, and each new step comes with an article. Th
 is exactly what that article explains:
 
 ```bash
-diff 01-chat/Agent.java 02-tokens/Agent.java
+diff 02-tokens/Agent.java 03-first-tool/Agent.java
 ```
 
 ## The steps
@@ -17,6 +17,7 @@ diff 01-chat/Agent.java 02-tokens/Agent.java
 |---|---|
 | [01 — Minimal chat](01-chat/) | The model is stateless: the conversation is a list we keep and resend every turn |
 | [02 — Tokens and cost](02-tokens/) | A system prompt, and a counter for tokens, cost and context-window usage |
+| [03 — A first tool](03-first-tool/) | The model asks for a tool, the harness runs it and sends the result back |
 
 More steps will be added here, one per article.
 
@@ -57,10 +58,10 @@ tail -F inspect.log
 ## What is (and is not) the harness
 
 - `Agent.java` in each step **is** the harness. Nothing is hidden in a framework.
-- [LangChain4j](https://docs.langchain4j.dev/) is used through its **low-level API** only (`ChatModel`, `ChatMessage`…):
-  it handles HTTP and JSON, nothing else.
-- `common/` holds the display code, kept out of the harness on purpose: `Display.java` prints the conversation to the
-  console, so the step code stays focused on the harness itself.
+- [LangChain4j](https://docs.langchain4j.dev/) is used through its **low-level API** only (`ChatModel`, `ChatMessage`,
+  `ToolSpecification`…): it handles HTTP and JSON. Deciding to run a tool, and running it, stays in our code.
+- `common/` holds the display code, kept out of the harness on purpose: `Display.java` prints the conversation and the tool
+  calls to the console, so the step code stays focused on the harness itself.
 
 ## License
 
