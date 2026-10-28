@@ -8,7 +8,7 @@ Each step is a single runnable file, and each new step comes with an article. Th
 is exactly what that article explains:
 
 ```bash
-diff 02-tokens/Agent.java 03-first-tool/Agent.java
+diff 03-first-tool/Agent.java 04-agentic-loop/Agent.java
 ```
 
 ## The steps
@@ -18,6 +18,7 @@ diff 02-tokens/Agent.java 03-first-tool/Agent.java
 | [01 — Minimal chat](01-chat/) | The model is stateless: the conversation is a list we keep and resend every turn |
 | [02 — Tokens and cost](02-tokens/) | A system prompt, and a counter for tokens, cost and context-window usage |
 | [03 — A first tool](03-first-tool/) | The model asks for a tool, the harness runs it and sends the result back |
+| [04 — The agentic loop](04-agentic-loop/) | `if` becomes `while`: the model chains tool calls on its own |
 
 More steps will be added here, one per article.
 
@@ -55,11 +56,15 @@ directory. Watch it from a second terminal:
 tail -F inspect.log
 ```
 
+From step 04 on, the agent works on files: it reads them relative to the directory you run it from. Run it from the project
+you want it to explore, giving the path to the step file: `jbang /path/to/this/repo/04-agentic-loop/Agent.java`.
+
 ## What is (and is not) the harness
 
 - `Agent.java` in each step **is** the harness. Nothing is hidden in a framework.
 - [LangChain4j](https://docs.langchain4j.dev/) is used through its **low-level API** only (`ChatModel`, `ChatMessage`,
-  `ToolSpecification`…): it handles HTTP and JSON. Deciding to run a tool, and running it, stays in our code.
+  `ToolSpecification`…): it handles HTTP and JSON. Deciding to run a tool, running it, and looping until the
+  model is done, stays in our code.
 - `common/` holds the display code, kept out of the harness on purpose: `Display.java` prints the conversation and the tool
   calls to the console, so the step code stays focused on the harness itself.
 

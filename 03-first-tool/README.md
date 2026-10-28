@@ -28,3 +28,4 @@ jbang 03-first-tool/Agent.java --inspect
 In `inspect.log`: `tools` in the request, a `function_call` item in the response, then a `function_call_output` item in the
 next request.
 
+**Next:** [Step 04 — The agentic loop](../04-agentic-loop/)
