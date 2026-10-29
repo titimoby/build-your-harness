@@ -8,7 +8,7 @@ Each step is a single runnable file, and each new step comes with an article. Th
 is exactly what that article explains:
 
 ```bash
-diff 03-first-tool/Agent.java 04-agentic-loop/Agent.java
+diff 04-agentic-loop/Agent.java 05-bash/Agent.java
 ```
 
 ## The steps
@@ -19,6 +19,7 @@ diff 03-first-tool/Agent.java 04-agentic-loop/Agent.java
 | [02 — Tokens and cost](02-tokens/) | A system prompt, and a counter for tokens, cost and context-window usage |
 | [03 — A first tool](03-first-tool/) | The model asks for a tool, the harness runs it and sends the result back |
 | [04 — The agentic loop](04-agentic-loop/) | `if` becomes `while`: the model chains tool calls on its own |
+| [05 — Bash](05-bash/) | One generic tool replaces all the specific ones, plus a terminal UI |
 
 More steps will be added here, one per article.
 
@@ -50,7 +51,7 @@ jbang 01-chat/Agent.java
 ```
 
 Type `exit` to quit. Add `--inspect` to see the raw JSON exchanged with the API: it is written to `inspect.log` in the current
-directory. Watch it from a second terminal:
+directory. Steps 01 to 04 print to the console, so watch it from a second terminal:
 
 ```bash
 tail -F inspect.log
@@ -59,14 +60,22 @@ tail -F inspect.log
 From step 04 on, the agent works on files: it reads them relative to the directory you run it from. Run it from the project
 you want it to explore, giving the path to the step file: `jbang /path/to/this/repo/04-agentic-loop/Agent.java`.
 
+From step 05 on, the agent runs in a **terminal UI** with an **Inspector** panel that shows the same JSON live. It needs a
+real terminal, not the "Run" console of an IDE.
+
+> ⚠️ **From step 05 on, the agent runs shell commands on your machine, without any safeguard.**
+> Run it from a throwaway directory, for instance a copy of a project you don't mind losing:
+> `cp -R /path/to/some/project /tmp/sandbox && cd /tmp/sandbox && jbang /path/to/this/repo/05-bash/Agent.java`.
+
 ## What is (and is not) the harness
 
 - `Agent.java` in each step **is** the harness. Nothing is hidden in a framework.
 - [LangChain4j](https://docs.langchain4j.dev/) is used through its **low-level API** only (`ChatModel`, `ChatMessage`,
   `ToolSpecification`…): it handles HTTP and JSON. Deciding to run a tool, running it, and looping until the
   model is done, stays in our code.
-- `common/` holds the display code, kept out of the harness on purpose: `Display.java` prints the conversation and the tool
-  calls to the console, so the step code stays focused on the harness itself.
+- `common/` holds the display code, kept out of the harness on purpose, so the step code stays focused on the harness
+  itself: `Display.java` (console, steps 01–04) and `TuiDisplay.java` (terminal UI with [TamboUI](https://tamboui.dev/),
+  from step 05). Both expose the same methods, so switching interfaces doesn't change the agent.
 
 ## License
 

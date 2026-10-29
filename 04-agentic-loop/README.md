@@ -29,3 +29,4 @@ jbang /path/to/this/repo/04-agentic-loop/Agent.java --inspect
 In `inspect.log`, every request after a tool call contains a `"type": "reasoning"` item with `encrypted_content`.
 The token count climbs quickly: each turn of the loop resends the whole history, tool results included.
 
+**Next:** [Step 05 — Bash](../05-bash/)
