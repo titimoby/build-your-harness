@@ -52,3 +52,4 @@ jbang /path/to/this/repo/05-bash/Agent.java --inspect
 - Nothing stops a destructive command. Again: throwaway directory.
 - If a model call fails (wrong key, network), the UI closes and the stack trace is printed in the restored terminal.
 
+**Next:** [Step 06 — Guardrails](../06-guardrails/)

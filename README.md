@@ -8,7 +8,7 @@ Each step is a single runnable file, and each new step comes with an article. Th
 is exactly what that article explains:
 
 ```bash
-diff 04-agentic-loop/Agent.java 05-bash/Agent.java
+diff 05-bash/Agent.java 06-guardrails/Agent.java
 ```
 
 ## The steps
@@ -20,6 +20,7 @@ diff 04-agentic-loop/Agent.java 05-bash/Agent.java
 | [03 — A first tool](03-first-tool/) | The model asks for a tool, the harness runs it and sends the result back |
 | [04 — The agentic loop](04-agentic-loop/) | `if` becomes `while`: the model chains tool calls on its own |
 | [05 — Bash](05-bash/) | One generic tool replaces all the specific ones, plus a terminal UI |
+| [06 — Guardrails](06-guardrails/) | Read-only allowlist, human approval, and a limit on tool rounds |
 
 More steps will be added here, one per article.
 
@@ -63,8 +64,9 @@ you want it to explore, giving the path to the step file: `jbang /path/to/this/r
 From step 05 on, the agent runs in a **terminal UI** with an **Inspector** panel that shows the same JSON live. It needs a
 real terminal, not the "Run" console of an IDE.
 
-> ⚠️ **From step 05 on, the agent runs shell commands on your machine, without any safeguard.**
-> Run it from a throwaway directory, for instance a copy of a project you don't mind losing:
+> ⚠️ **From step 05 on, the agent runs shell commands on your machine.** Step 05 has no safeguard at all; from step 06 on,
+> any command that could change something asks for your approval. Either way, run it from a throwaway directory, for
+> instance a copy of a project you don't mind losing:
 > `cp -R /path/to/some/project /tmp/sandbox && cd /tmp/sandbox && jbang /path/to/this/repo/05-bash/Agent.java`.
 
 ## What is (and is not) the harness
