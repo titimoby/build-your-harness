@@ -125,7 +125,7 @@ Tool tool(String name, String description, String parameter, ToolFunction functi
     return new Tool(spec, arguments -> function.run(json.readTree(arguments).path(parameter).asText()));
 }
 
-// No safeguard yet: the model can run ANY command on this machine. Step 7 deals with that.
+// No safeguard yet: the model can run ANY command on this machine. Step 6 deals with that.
 String bash(String command) throws Exception {
     Path output = Files.createTempFile("bash", ".log");
     try {

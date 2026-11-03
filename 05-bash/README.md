@@ -1,7 +1,7 @@
 # Step 05 — Bash
 
 One generic tool replaces all the specific ones: `list_files` and `read_file` disappear, and with `bash` the agent can now
-explore, compile, run tests, edit files… anything your shell can do. That power is exactly the problem, and step 07 deals
+explore, compile, run tests, edit files… anything your shell can do. That power is exactly the problem, and step 06 deals
 with it.
 
 > ⚠️ **No safeguard in this step**: the model can run *any* command with your permissions.

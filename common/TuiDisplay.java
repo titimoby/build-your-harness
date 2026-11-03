@@ -137,7 +137,7 @@ final class TuiDisplay {
         });
     }
 
-    // Asks the user to approve a tool call (step 7). Blocks the agent thread until y / n.
+    // Asks the user to approve a tool call (step 6). Blocks the agent thread until y / n.
     boolean confirm(ToolExecutionRequest call) {
         var approval = new CompletableFuture<Boolean>();
         List<Line> preview = approvalPreview(call.arguments());
