@@ -8,7 +8,7 @@ Each step is a single runnable file, and each new step comes with an article. Th
 is exactly what that article explains:
 
 ```bash
-diff 05-bash/Agent.java 06-guardrails/Agent.java
+diff 06-guardrails/Agent.java 07-file-tools/Agent.java
 ```
 
 ## The steps
@@ -21,6 +21,7 @@ diff 05-bash/Agent.java 06-guardrails/Agent.java
 | [04 — The agentic loop](04-agentic-loop/) | `if` becomes `while`: the model chains tool calls on its own |
 | [05 — Bash](05-bash/) | One generic tool replaces all the specific ones, plus a terminal UI |
 | [06 — Guardrails](06-guardrails/) | Read-only allowlist, human approval, and a limit on tool rounds |
+| [07 — File tools](07-file-tools/) | Dedicated write and edit tools, so each tool gets its own permission |
 
 More steps will be added here, one per article.
 

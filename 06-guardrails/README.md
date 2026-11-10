@@ -55,3 +55,4 @@ To see the round limit in action, lower `MAX_TOOL_ROUNDS` to 2.
 - Models often append `2>/dev/null`: the `>` makes these commands ask for approval.
 - **The real defense is isolation** (container, sandbox, dedicated user): guardrails in the harness reduce risk, they don't remove it.
 
+**Next:** [Step 07 — File tools](../07-file-tools/)

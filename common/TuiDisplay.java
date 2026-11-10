@@ -45,6 +45,7 @@ final class TuiDisplay {
     private static final Color TEXT = null; // the terminal's own foreground: black on a light theme, white on a dark one
     private static final int MAX_WIDTH = 100;
     private static final int MAX_INSPECTOR_LINES = 5_000;
+    private static final int PREVIEW_LINES = 10; // first lines of a write_file shown before approval
 
     private record Line(String content, Color color, boolean bold) {
         static Line blank() {
@@ -317,7 +318,7 @@ final class TuiDisplay {
         return new Line("    └ " + summary + status, color, false);
     }
 
-    // What the user approves: the full command, the diff of an edit, the size of a write.
+    // What the user approves: the full command, the diff of an edit, or for a write: new file or overwrite, and its first lines.
     private static List<Line> approvalPreview(String arguments) {
         List<Line> lines = new ArrayList<>();
         try {
@@ -326,12 +327,35 @@ final class TuiDisplay {
                 node.get("old_text").asText().lines().forEach(l -> lines.add(new Line("    │ - " + l, RED, false)));
                 node.get("new_text").asText().lines().forEach(l -> lines.add(new Line("    │ + " + l, GREEN, false)));
             } else if (node.has("content")) {
-                lines.add(new Line("    │ " + node.get("content").asText().lines().count() + " lines to write", TEXT, false));
+                lines.addAll(writePreview(node.path("path").asText(), node.get("content").asText()));
             } else if (node.has("command")) {
                 node.get("command").asText().lines().forEach(l -> lines.add(new Line("    │ $ " + l, TEXT, false)));
             }
         } catch (Exception e) {
             lines.add(new Line("    │ " + arguments, TEXT, false));
+        }
+        return lines;
+    }
+
+    // A write can silently replace a whole file: say so, then show the beginning of the new content.
+    private static List<Line> writePreview(String path, String content) {
+        List<Line> lines = new ArrayList<>();
+        List<String> newLines = content.lines().toList();
+        Path file = Path.of(path);
+        if (Files.exists(file)) {
+            String before;
+            try {
+                before = Files.readAllLines(file).size() + " lines";
+            } catch (Exception e) {
+                before = "unreadable content";
+            }
+            lines.add(new Line("    │ overwrites " + path + " (" + before + " → " + newLines.size() + " lines)", YELLOW, true));
+        } else {
+            lines.add(new Line("    │ new file " + path + " (" + newLines.size() + " lines)", TEXT, false));
+        }
+        newLines.stream().limit(PREVIEW_LINES).forEach(l -> lines.add(new Line("    │ + " + l, GREEN, false)));
+        if (newLines.size() > PREVIEW_LINES) {
+            lines.add(new Line("    │ … " + (newLines.size() - PREVIEW_LINES) + " more lines", DIM, false));
         }
         return lines;
     }
