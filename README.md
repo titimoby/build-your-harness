@@ -8,7 +8,7 @@ Each step is a single runnable file, and each new step comes with an article. Th
 is exactly what that article explains:
 
 ```bash
-diff 06-guardrails/Agent.java 07-file-tools/Agent.java
+diff 07-file-tools/Agent.java 08-truncation/Agent.java
 ```
 
 ## The steps
@@ -22,6 +22,7 @@ diff 06-guardrails/Agent.java 07-file-tools/Agent.java
 | [05 — Bash](05-bash/) | One generic tool replaces all the specific ones, plus a terminal UI |
 | [06 — Guardrails](06-guardrails/) | Read-only allowlist, human approval, and a limit on tool rounds |
 | [07 — File tools](07-file-tools/) | Dedicated write and edit tools, so each tool gets its own permission |
+| [08 — Truncating tool output](08-truncation/) | Long tool results are cut, keeping the start and the end |
 
 More steps will be added here, one per article.
 

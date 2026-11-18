@@ -26,6 +26,7 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.regex.Pattern;
 
 import static dev.tamboui.toolkit.Toolkit.*;
 
@@ -46,6 +47,7 @@ final class TuiDisplay {
     private static final int MAX_WIDTH = 100;
     private static final int MAX_INSPECTOR_LINES = 5_000;
     private static final int PREVIEW_LINES = 10; // first lines of a write_file shown before approval
+    private static final Pattern TRUNCATED = Pattern.compile("\\n\\[\\.\\.\\. \\d+ characters cut");
 
     private record Line(String content, Color color, boolean bold) {
         static Line blank() {
@@ -152,6 +154,15 @@ final class TuiDisplay {
         } catch (Exception e) {
             return false;
         }
+    }
+
+    // The history is about to be replaced by a summary (step 9).
+    void compacting(int messages, int tokens) {
+        onUi(() -> {
+            conversation.add(Line.blank());
+            conversation.add(new Line("  ⟳ compacting the context: %d messages (%,d tokens) replaced by a summary…"
+                    .formatted(messages, tokens), YELLOW, false));
+        });
     }
 
     void usage(int inputTokens, int outputTokens, double sessionCost, double contextPercent) {
@@ -315,6 +326,7 @@ final class TuiDisplay {
             default -> lines.size() + " lines";
         };
         Color color = status.isEmpty() || status.equals(" · exit code 0") ? TEXT : RED;
+        if (TRUNCATED.matcher(result).find()) status += " · truncated"; // step 8: the model got only part of it
         return new Line("    └ " + summary + status, color, false);
     }
 

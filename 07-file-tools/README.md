@@ -45,3 +45,5 @@ rewriting the whole file?
   like any other non-read-only command, without a diff.
 - `write_file` replaces the whole file: approving it means trusting its full content.
 - The allowlist holes of step 06 are still there, and isolation is still the real defense.
+
+**Next:** [Step 08 — Truncating tool output](../08-truncation/)
